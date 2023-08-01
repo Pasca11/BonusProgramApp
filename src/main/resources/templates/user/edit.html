@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit page</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/users/{id}(id=${person.getId()})}" th:object="${person}">
+    <label for="name">Имя</label>
+    <input type="text" th:field="*{name}" id="name">
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>
+    <br>
+    <label for="phoneNumber">Номер телефона</label>
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber">
+    <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">error</div>
+    <br>
+    <label for="birthday">Дата рождения</label>
+    <input type="date" th:field="*{birthday}" id="birthday">
+    <div style="color: red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">error</div>
+    <br>
+    <input type="submit" value="Редактировать">
+</form>
+</body>
+</html>

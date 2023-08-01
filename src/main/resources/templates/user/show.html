@@ -5,8 +5,25 @@
     <title>User</title>
 </head>
 <body>
+<p th:utext="${person.getId()} + '<br />' + ${person.getName()} + '<br />' + ${person.getBirthday()} + '<br />'
+ + ${person.getPhoneNumber()} + '<br />' + ${person.getRole()}"></p>
+
+<form th:method="PATCH" th:action="@{/users/{id}/changeRole(id=${person.getId()})}">
+    <label for="rolePicker">Выберите роль</label>
+    <select th:object="${person}" th:field="*{role}" id="rolePicker">
+        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">
+        </option>
+    </select>
+    <input type="submit" value="Изменить роль">
+</form>
+
+<form th:method="GET" th:action="@{/users/{id}/edit(id = ${person.getId()})}">
+    <input type="submit" value="Редактировать пользователья">
+</form>
+
 <form th:method="DELETE" th:action="@{/users/{id}(id = ${person.getId()})}">
     <input type="submit" value="Удалить пользователя">
 </form>
+
 </body>
 </html>

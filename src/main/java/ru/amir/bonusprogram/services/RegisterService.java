@@ -21,7 +21,10 @@ public class RegisterService {
     }
 
     public Optional<Person> findById(int id) {
-        return peopleRepository.findById(id);
+        Optional<Person> person = peopleRepository.findById(id);
+        person.get().setPhoneNumber(person.get().getPhoneNumber() == null ? "Номер не указан" : person.get().getPhoneNumber());
+        return person;
+
     }
 
     @Transactional
@@ -42,5 +45,24 @@ public class RegisterService {
         for (Person person : people)
             person.setPhoneNumber(person.getPhoneNumber() == null ? "Номер не указан" : person.getPhoneNumber());
         return people;
+    }
+
+    @Transactional
+    public void changeRole(int id, Person person) {
+        Optional<Person> found = peopleRepository.findById(id);
+        found.get().setRole(person.getRole());
+    }
+
+    @Transactional
+    public void delete(int id) {
+        peopleRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void update(int id, Person person) {
+        Person found = peopleRepository.findById(id).get();
+        found.setName(person.getName());
+        found.setPhoneNumber(person.getPhoneNumber());
+        found.setBirthday(person.getBirthday());
     }
 }

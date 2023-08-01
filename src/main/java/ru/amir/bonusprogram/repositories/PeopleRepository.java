@@ -16,5 +16,4 @@ public interface PeopleRepository extends JpaRepository<Person, Integer> {
     List<Person> findNonAdmin();
 
     List<Person> findAllByNameLike(String pattern);
-
 }

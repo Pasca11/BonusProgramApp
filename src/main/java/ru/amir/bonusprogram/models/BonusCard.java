@@ -19,4 +19,36 @@ public class BonusCard {
     @OneToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Person customer;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPusrchaseSum() {
+        return pusrchaseSum;
+    }
+
+    public void setPusrchaseSum(int pusrchaseSum) {
+        this.pusrchaseSum = pusrchaseSum;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public Person getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Person customer) {
+        this.customer = customer;
+    }
 }

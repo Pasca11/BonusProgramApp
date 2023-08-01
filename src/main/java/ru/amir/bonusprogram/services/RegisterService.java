@@ -20,11 +20,16 @@ public class RegisterService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional(readOnly = true)
     public Optional<Person> findById(int id) {
         Optional<Person> person = peopleRepository.findById(id);
         person.get().setPhoneNumber(person.get().getPhoneNumber() == null ? "Номер не указан" : person.get().getPhoneNumber());
         return person;
+    }
 
+    @Transactional(readOnly = true)
+    public Optional<Person> findByName(String name) {
+        return peopleRepository.findByName(name);
     }
 
     @Transactional

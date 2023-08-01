@@ -15,16 +15,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         System.out.println("In config");
         http
-//                .authorizeHttpRequests(request ->
-//                        request
-//                                .requestMatchers("/admin").hasRole("ADMIN")
-//                                .requestMatchers("/auth/login", "/auth/registration", "/error").permitAll()
-//                                .anyRequest().authenticated()
-//                )
+                .authorizeHttpRequests(request ->
+                        request
+                                .requestMatchers("/admin").hasRole("ADMIN")
+                                .requestMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+                                .anyRequest().authenticated()
+                )
                 .formLogin(login ->
                         login.loginPage("/auth/login")
                                 .loginProcessingUrl("/process_login")
-                                .defaultSuccessUrl("/hello", true)
+                                .defaultSuccessUrl("/users", true)
                                 .failureUrl("/auth/login?error")
                 )
                 .logout(logout ->

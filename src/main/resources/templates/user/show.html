@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
@@ -8,15 +9,28 @@
 <p th:utext="${person.getId()} + '<br />' + ${person.getName()} + '<br />' + ${person.getBirthday()} + '<br />'
  + ${person.getPhoneNumber()} + '<br />' + ${person.getRole()}"></p>
 
-<form th:method="PATCH" th:action="@{/users/{id}/changeRole(id=${person.getId()})}">
-    <label for="rolePicker">Выберите роль</label>
-    <select th:object="${person}" th:field="*{role}" id="rolePicker">
-        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">
-        </option>
-    </select>
-    <input type="submit" value="Изменить роль">
-</form>
+<div th:if="${card}">
+    <p th:text="'ID карты: ' + ${card.getId()}"></p>
+    <p th:text="'Скидка,%: ' + ${card.getDiscount()}"></p>
+    <p th:text="'Сумма покупок: ' + ${card.getPusrchaseSum()}"></p>
+</div>
+<div th:unless="${card}">
+    <p>Бонусная карта остутствует</p>
+    <a th:href="@{/users/{id}/createCard(id=${person.getId()})}" >Создать новую карту</a>
+</div>
 
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <form th:method="PATCH" th:action="@{/users/{id}/changeRole(id=${person.getId()})}">
+        <label for="rolePicker">Выберите роль</label>
+        <select th:object="${person}" th:field="*{role}" id="rolePicker">
+            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">
+            </option>
+        </select>
+        <input type="submit" value="Изменить роль">
+    </form>
+</div>
+
+<div th:if="${#authentication.getName()}==${person.getName()} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
 <form th:method="GET" th:action="@{/users/{id}/edit(id = ${person.getId()})}">
     <input type="submit" value="Редактировать пользователья">
 </form>
@@ -24,6 +38,7 @@
 <form th:method="DELETE" th:action="@{/users/{id}(id = ${person.getId()})}">
     <input type="submit" value="Удалить пользователя">
 </form>
+</div>
 
 </body>
 </html>

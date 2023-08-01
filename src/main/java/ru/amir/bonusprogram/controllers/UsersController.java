@@ -1,10 +1,12 @@
 package ru.amir.bonusprogram.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.amir.bonusprogram.models.Person;
+import ru.amir.bonusprogram.services.BonusCardsService;
 import ru.amir.bonusprogram.services.RegisterService;
 import ru.amir.bonusprogram.util.Roles;
 
@@ -16,9 +18,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/users")
 public class UsersController {
     private final RegisterService registerService;
+    private final BonusCardsService bonusCardsService;
 
-    public UsersController(RegisterService registerService) {
+    public UsersController(RegisterService registerService, BonusCardsService bonusCardsService) {
         this.registerService = registerService;
+        this.bonusCardsService = bonusCardsService;
     }
 
     @GetMapping
@@ -42,6 +46,7 @@ public class UsersController {
         } else {
             model.addAttribute("person", found.get());
             model.addAttribute("roles", Arrays.stream(Roles.values()).map(Enum::name).collect(Collectors.toList()));
+            model.addAttribute("card", found.get().getBonusCard());
         }
         return "/user/show";
     }
@@ -51,6 +56,12 @@ public class UsersController {
                            Model model) {
         model.addAttribute("person", registerService.findById(id).get());
         return "user/edit";
+    }
+
+    @GetMapping("/{id}/createCard")
+    public String card(@PathVariable("id") int id) {
+        bonusCardsService.createCardAndAssign(registerService.findById(id).get());
+        return "redirect:/users/" + id;
     }
 
     @PatchMapping("/{id}")

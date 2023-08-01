@@ -10,6 +10,10 @@
   <input type="text" th:field="*{name}" id="username"/>
   <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Username Error</div>
   <br/>
+  <label for="phoneNumber">Введите номер телефона: </label>
+  <input type="text" th:field="*{phoneNumber}" id="phoneNumber"/>
+  <div style="color:red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Phone number Error</div>
+  <br/>
   <label for="yearOfBirth">Введите дату рождения: </label>
   <input type="date" th:field="*{birthday}" id="yearOfBirth"/>
   <div style="color:red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Year of birth Error

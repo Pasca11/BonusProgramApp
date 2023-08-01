@@ -2,8 +2,10 @@ package ru.amir.bonusprogram.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Parent;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -26,6 +28,7 @@ public class Person {
     private Date birthday;
 
     @Column(name = "phone_number")
+    @Pattern(regexp = "[+][0-9]{11}", message = "Incorrect phone number")
     private String phoneNumber;
 
     @OneToOne(mappedBy = "customer")
